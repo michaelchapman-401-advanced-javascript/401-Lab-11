@@ -11,17 +11,17 @@ module.exports = (req, res, next) => {
     // BASIC Auth  ... Authorization:Basic ZnJlZDpzYW1wbGU=
 
     switch(authType.toLowerCase()) {
-      case 'basic':
-        return _authBasic(encodedString);
-      default:
-        return _authError();
+    case 'basic':
+      return _authBasic(encodedString);
+    default:
+      return _authError();
     }
 
   } catch(e) {
     return _authError();
   }
 
-  function _authBasic() {
+  function _authBasic(authString) {
     let base64Buffer = Buffer.from(authString,'base64'); // <Buffer 01 02...>
     let bufferString = base64Buffer.toString(); // john:mysecret
     let [username,password] = bufferString.split(':');  // variables username="john" and password="mysecret"
@@ -32,10 +32,11 @@ module.exports = (req, res, next) => {
   }
 
   function _authenticate(user) {
-    if ( user ) {
+    if(user){
+      req.user = user;
+      req.token = user.generateToken();
       next();
-    }
-    else {
+    }else{
       _authError();
     }
   }
