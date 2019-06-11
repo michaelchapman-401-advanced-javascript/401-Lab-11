@@ -17,11 +17,13 @@ const app = express();
 // App Level MW
 app.use(cors());
 app.use(morgan('dev'));
-app.use(authRouter);
-app.use(books);
 
 app.use(express.json());
+// Looking at data and sticking it on req.body
 app.use(express.urlencoded({extended:true}));
+
+app.use(books);
+app.use(authRouter);
 
 // Catchalls
 app.use(notFound);

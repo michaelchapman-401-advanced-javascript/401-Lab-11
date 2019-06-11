@@ -25,7 +25,7 @@ module.exports = (req, res, next) => {
     let base64Buffer = Buffer.from(authString,'base64'); // <Buffer 01 02...>
     let bufferString = base64Buffer.toString(); // john:mysecret
     let [username,password] = bufferString.split(':');  // variables username="john" and password="mysecret"
-    let auth = [username,password];  // {username:"john", password:"mysecret"}
+    let auth = {username,password};  // {username:"john", password:"mysecret"}
 
     return User.authenticateBasic(auth)
       .then( user => _authenticate(user) );
