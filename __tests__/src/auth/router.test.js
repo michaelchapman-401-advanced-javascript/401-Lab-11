@@ -1,6 +1,9 @@
 'use strict';
 
 process.env.STORAGE = 'mongo';
+require('dotenv').config();
+const SECRET = 'aosfaskfjaslfjka';
+// need to mock jwt to pass travis because something is being used we don't have control over - string
 
 const jwt = require('jsonwebtoken');
 
@@ -23,29 +26,26 @@ describe('Auth Router', () => {
   Object.keys(users).forEach( userType => {
     
     describe(`${userType} users`, () => {
-      
-      let encodedToken;
       let id;
       
       it('can create one', () => {
         return mockRequest.post('/signup')
           .send(users[userType])
           .then(results => {
-            var token = jwt.verify(results.text, process.env.SECRET || 'changeit');
+            var token = jwt.verify(results.text, SECRET || 'changeit');
             id = token.id;
-            encodedToken = results.text;
             expect(token.id).toBeDefined();
-            expect(token.capabilities).toBeDefined();
+            expect(token.role).toBeDefined();
           });
       });
 
       it('can signin with basic', () => {
-        return mockRequest.post('/signin')
+        return mockRequest.get('/signin')
           .auth(users[userType].username, users[userType].password)
           .then(results => {
-            var token = jwt.verify(results.text, process.env.SECRET || 'changeit');
+            var token = jwt.verify(results.text, SECRET || 'changeit');
             expect(token.id).toEqual(id);
-            expect(token.capabilities).toBeDefined();
+            expect(token.role).toBeDefined();
           });
       });
 

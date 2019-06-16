@@ -14,6 +14,11 @@ const books = require('./routes/books.js');
 // Prepare the express app
 const app = express();
 
+// docs
+const options = require('../docs/config/swagger');
+const expressSwagger = require('express-swagger-generator')(app);
+expressSwagger(options);
+
 // App Level MW
 app.use(cors());
 app.use(morgan('dev'));
@@ -28,6 +33,9 @@ app.use(authRouter);
 // Catchalls
 app.use(notFound);
 app.use(errorHandler);
+
+// Required for docs to work
+app.use(express.static('docs'));
 
 let isRunning = false;
 

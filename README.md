@@ -9,6 +9,7 @@
 * [travis](https://travis-ci.org/michaelchapman-401-advanced-javascript/lab-11)
 * [UML](./assets/whiteboard.jpg)
 * [heroku](https://boiling-lowlands-65896.herokuapp.com/)
+* [swagger](http://localhost:3002/api-docs#/default/post__model__)
 
 ### Modules
 CRUD methods in categories, Teams, and Players

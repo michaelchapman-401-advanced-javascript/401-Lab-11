@@ -4,6 +4,8 @@ const supergoose = require('../../supergoose.js');
 const auth = require('../../../src/auth/middleware.js');
 const Users = require('../../../src/auth/users-model.js');
 
+require('dotenv').config();
+
 let users = {
   admin: {username: 'admin', password: 'password', role: 'admin'},
   editor: {username: 'editor', password: 'password', role: 'editor'},
@@ -15,7 +17,7 @@ beforeAll(async (done) => {
   const adminUser = await new Users(users.admin).save();
   const editorUser = await new Users(users.editor).save();
   const userUser = await new Users(users.user).save();
-  done()
+  done();
 });
 
 afterAll(supergoose.stopDB);

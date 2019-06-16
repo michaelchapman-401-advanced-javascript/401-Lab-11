@@ -2,6 +2,12 @@
 
 const User = require('./users-model.js');
 
+/**
+   * @module middleware module
+   * @param {object} req - request object
+   * @param {object} res - response object
+   * @desc contains all middleware
+   */
 module.exports = (req, res, next) => {
 
   try {
@@ -21,6 +27,11 @@ module.exports = (req, res, next) => {
     return _authError();
   }
 
+  /**
+   * @module _authBasic(authString)
+   * @param {object} authString - Authorization string for basic authentication
+   * @desc Handles creating auth information and calls User.authenticateBasic and handles the return
+   */
   function _authBasic(authString) {
     let base64Buffer = Buffer.from(authString,'base64'); // <Buffer 01 02...>
     let bufferString = base64Buffer.toString(); // john:mysecret
@@ -31,8 +42,13 @@ module.exports = (req, res, next) => {
       .then( user => _authenticate(user) );
   }
 
+  /**
+   * @module _authenticate(user)
+   * @param {object} user - user object containing user credentials
+   * @desc Handles authenticating a user and moves onto next middleware or returns and error
+   */
   function _authenticate(user) {
-    if(user){
+    if( user ) {
       req.user = user;
       req.token = user.generateToken();
       next();
