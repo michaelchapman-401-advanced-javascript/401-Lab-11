@@ -32,7 +32,7 @@ authRouter.post('/signup', (req, res, next) => {
  * @returns {Object} 500 - Server error
  * @returns {Object} 200 - { count: 2, results: [{}, {}]}
  */
-authRouter.get('/signin', auth, (req, res, next) => {
+authRouter.get('/signin', auth, (req, res) => {
   console.log('TOKEN');
   console.log(req.token);
   res.cookie('auth', req.token);

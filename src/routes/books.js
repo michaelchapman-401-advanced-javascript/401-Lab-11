@@ -29,7 +29,7 @@ router.get('/books/:id', auth, handleGetOne);
    * @param {object} res - response object
    * @desc server returns all books
    */
-function handleGetAll(req, res, next) {
+function handleGetAll(req, res) {
   let books = {
     count: 3,
     results: [
@@ -48,7 +48,7 @@ function handleGetAll(req, res, next) {
    * @param {object} id - id of requested resource
    * @desc server returns a book
    */
-function handleGetOne(req, res, next) {
+function handleGetOne(req, res) {
   let book = {
     title:'Moby Dick',
   };
