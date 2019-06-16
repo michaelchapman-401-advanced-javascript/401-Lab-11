@@ -2,12 +2,34 @@
 
 const express = require('express');
 const router = express.Router();
+const auth = require('../auth/middleware.js');
 
-router.get('/books', handleGetAll);
-router.get('/books/:id', handleGetOne);
+/**
+ * Get a single book from the database based on id
+ * @route GET /{model}/{:id}
+ * @consumes application/json application/xml
+ * @returns {Object} 500 - Server error
+ * @returns {Object} 200 - { count: 2, results: [{}, {}]}
+ */
+router.get('/books', auth, handleGetAll);
+
+/**
+ * Get a single book from the database based on id
+ * @route GET /{model}/{:id}
+ * @consumes application/json application/xml
+ * @returns {Object} 500 - Server error
+ * @returns {Object} 200 - { count: 2, results: [{}, {}]}
+ */
+router.get('/books/:id', auth, handleGetOne);
 
 // Route Handlers
-function handleGetAll(req, res, next) {
+/**
+   * @module handleGetAll
+   * @param {object} req - request object
+   * @param {object} res - response object
+   * @desc server returns all books
+   */
+function handleGetAll(req, res) {
   let books = {
     count: 3,
     results: [
@@ -19,7 +41,14 @@ function handleGetAll(req, res, next) {
   res.status(200).json(books);
 }
 
-function handleGetOne(req, res, next) {
+/**
+   * @module handleGetOne
+   * @param {object} req - request object
+   * @param {object} res - response object
+   * @param {object} id - id of requested resource
+   * @desc server returns a book
+   */
+function handleGetOne(req, res) {
   let book = {
     title:'Moby Dick',
   };

@@ -9,20 +9,33 @@ const morgan = require('morgan');
 const errorHandler = require( './middleware/error.js');
 const notFound = require( './middleware/404.js' );
 const authRouter = require( './auth/router.js' );
+const books = require('./routes/books.js');
 
 // Prepare the express app
 const app = express();
+
+// docs
+const options = require('../docs/config/swagger');
+const expressSwagger = require('express-swagger-generator')(app);
+expressSwagger(options);
 
 // App Level MW
 app.use(cors());
 app.use(morgan('dev'));
 
 app.use(express.json());
+// Looking at data and sticking it on req.body
 app.use(express.urlencoded({extended:true}));
+
+app.use(books);
+app.use(authRouter);
 
 // Catchalls
 app.use(notFound);
 app.use(errorHandler);
+
+// Required for docs to work
+app.use(express.static('docs'));
 
 let isRunning = false;
 
